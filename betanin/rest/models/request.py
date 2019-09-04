@@ -47,7 +47,7 @@ TORRENTS.add_argument(
     "status",
     type=str,
     location="args",
-    help="`status of torrent (eg. 'active' or 'history')`",
+    help="`status of torrent (eg. 'active' or 'complete')`",
 )
 
 

@@ -41,7 +41,7 @@ class TorrentsResource(SecureResource):
         query = Torrent.query
         if args["status"] and args["status"] == "active":
             query = query.filter(Torrent.status != Status.COMPLETED)
-        elif args["status"] and args["status"] == "history":
+        elif args["status"] and args["status"] == "complete":
             query = query.filter(Torrent.status == Status.COMPLETED)
         elif args["status"]:
             return abort(400, "please provide a valid status")
