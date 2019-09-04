@@ -64,10 +64,6 @@ TORRENT = TORRENTS_NS.model(
             description="whether there are lines for the torrent or not",
             example=True,
         ),
-        "tooltip": fields.String(
-            description="the explained status of the torrent",
-            example="torrent existed before betanin saw it",
-        ),
         "updated": fields.DateTime,
         "created": fields.DateTime,
     },
