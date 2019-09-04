@@ -38,14 +38,10 @@
       template(slot-scope='props'
                slot='detail')
         #row-status
-          p
-            <strong>id</strong> {{ props.row.id }}
-          p
-            <strong>status</strong> {{ props.row.status | lower }}
-          p
-            <strong>created</strong> {{ props.row.created }}
-          p
-            <strong>updated</strong> {{ props.row.updated }}
+          p <strong>id</strong> {{ props.row.id }}
+          p <strong>status</strong> {{ props.row.status | lower }}
+          p <strong>created</strong> {{ props.row.created }}
+          p <strong>updated</strong> {{ props.row.updated }}
     router-view(name='modal')
 </template>
 
