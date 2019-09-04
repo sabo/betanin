@@ -68,6 +68,15 @@ TORRENT = TORRENTS_NS.model(
         "created": fields.DateTime,
     },
 )
+TORRENT_LIST = TORRENTS_NS.model(
+    "TorrentList",
+    {
+        "total": fields.Integer(
+            description="the total number of torrents", example=560
+        ),
+        "torrents": fields.List(fields.Nested(TORRENT)),
+    },
+)
 BEETS_CONFIG = BEETS_NS.model(
     "BeetsConfig",
     {

@@ -1,21 +1,16 @@
 <template lang="pug">
   div
-    #manual-search(v-show='isActivity()')
-      manual-import
-      hr
-    component(
-      :is='emptyTorrentsComponent'
-      v-if='torrents.length == 0'
-    )
     b-table#torrents(
-      v-else
-      :data='torrents'
-      :opened-detailed='openedDetails'
+      :data="torrents"
+      :loading="loading"
+      paginated
+      backend-pagination
+      :total="total"
+      :per-page="perPage"
+      @page-change="changePage"
       detailed
       detail-key='id'
-      paginated
-      per-page='50'
-      :pagination-simple='true'
+      :opened-detailed='openedDetails'
     )
       template(slot-scope='props')
         b-table-column(label='name') {{ props.row.name }}
@@ -35,8 +30,7 @@
             | &nbsp;
             span.link(title='retry import' @click='retryTorrent(props.row.id)')
               b-icon.link(title='retry import' icon='loop' size='is-small')
-      template(slot-scope='props'
-               slot='detail')
+      template(slot-scope='props' slot='detail')
         #row-status
           p <strong>id</strong> {{ props.row.id }}
           p <strong>status</strong> {{ props.row.status | lower }}
@@ -47,19 +41,31 @@
 
 <script>
 // imports
-import NoActive from '@/components/tips/NoActive.vue'
 import NoHistory from '@/components/tips/NoHistory.vue'
 import ManualImport from '@/components/ManualImport.vue'
 import store from '@/store/main'
+import backend from '@/backend'
 
 // help
 const statusMap = {
   /* eslint-disable no-multi-spaces, key-spacing, standard/object-curly-even-spacing */
-  'ENQUEUED':    { text: 'enqueued',    icon: 'clock-outline', colour: 'hsl(36, 99%, 65%)'  }, // orange
-  'PROCESSING':  { text: 'processing',  icon: 'clock-fast',    colour: 'hsl(48, 98%, 52%'   }, // yellow
-  'NEEDS_INPUT': { text: 'needs input', icon: 'alert',         colour: 'hsl(48, 98%, 52%)'  }, // yellow-orange
-  'FAILED':      { text: 'failed',      icon: 'close',         colour: 'hsl(349, 58%, 57%)' }, // angry red
-  'COMPLETED':   { text: 'completed',   icon: 'check',         colour: 'hsl(141, 71%, 48%)' }  // green
+  ENQUEUED: {
+    text: 'enqueued',
+    icon: 'clock-outline',
+    colour: 'hsl(36, 99%, 65%)'
+  }, // orange
+  PROCESSING: {
+    text: 'processing',
+    icon: 'clock-fast',
+    colour: 'hsl(48, 98%, 52%'
+  }, // yellow
+  NEEDS_INPUT: {
+    text: 'needs input',
+    icon: 'alert',
+    colour: 'hsl(48, 98%, 52%)'
+  }, // yellow-orange
+  FAILED: { text: 'failed', icon: 'close', colour: 'hsl(349, 58%, 57%)' }, // angry red
+  COMPLETED: { text: 'completed', icon: 'check', colour: 'hsl(141, 71%, 48%)' } // green
 }
 // export
 export default {
@@ -68,14 +74,7 @@ export default {
   },
   computed: {
     emptyTorrentsComponent () {
-      return this.isActivity()
-        ? NoActive
-        : NoHistory
-    },
-    torrents () {
-      return this.isActivity()
-        ? store.getters['torrents/getActivity']
-        : store.getters['torrents/getHistory']
+      return NoHistory
     }
   },
   methods: {
@@ -86,7 +85,8 @@ export default {
       if (confirm('do you want to retry this?')) {
         store.dispatch('torrents/doRetryOne', torrentID)
         this.$router.push({
-          name: 'modal console', params: { torrentID }
+          name: 'modal console',
+          params: { torrentID }
         })
       }
     },
@@ -97,40 +97,68 @@ export default {
     },
     statusStyle (status) {
       return statusMap[status]
+    },
+    async getTorrents () {
+      this.loading = true
+      try {
+        const response = await backend.secureAxios.get('torrents/', {
+          params: {
+            page: this.page,
+            per_page: this.perPage
+          }
+        })
+        this.torrents = response.data.torrents
+        this.total = response.data.total
+        this.loading = false
+      } catch (e) {
+        this.torrents = []
+        this.total = 0
+        this.loading = false
+        throw e
+      }
+    },
+    changePage (page) {
+      this.page = page
+      this.getTorrents()
     }
   },
   data () {
     return {
-      openedDetails: []
+      page: 1,
+      perPage: 20,
+      torrents: [],
+      openedDetails: [],
+      total: 0,
+      loading: false
     }
   },
   mounted () {
-    store.dispatch('torrents/doFetchAll')
+    this.getTorrents()
   }
 }
 </script>
 
-<style lang='scss' scoped>
-  #torrents /deep/ td {
-    vertical-align: middle;
-  }
-  #row-status {
-    text-align: right;
-    word-break: break-all;
-  }
-  .link {
-    cursor: pointer;
-  }
-  .status-group ~ .status-group::before {
-    content: "｜";
-    display: inline-block;
-    margin: 0 0.1rem;
-    opacity: 0.15;
-  }
-  .controls {
-    white-space: nowrap;
-  }
-  a {
-    color: unset;
-  }
+<style lang="scss" scoped>
+#torrents /deep/ td {
+  vertical-align: middle;
+}
+#row-status {
+  text-align: right;
+  word-break: break-all;
+}
+.link {
+  cursor: pointer;
+}
+.status-group ~ .status-group::before {
+  content: '｜';
+  display: inline-block;
+  margin: 0 0.1rem;
+  opacity: 0.15;
+}
+.controls {
+  white-space: nowrap;
+}
+a {
+  color: unset;
+}
 </style>

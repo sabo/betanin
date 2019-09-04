@@ -11,6 +11,7 @@ from betanin.extensions import DB
 from betanin.rest.models import request as req_models
 from betanin.rest.models import response as resp_models
 from betanin.rest.namespaces import TORRENTS_NS
+from betanin.status import Status
 from betanin.orm.models.torrent import Torrent
 
 
@@ -33,15 +34,24 @@ class TorrentsResource(SecureResource):
 
     @staticmethod
     @TORRENTS_NS.doc(parser=req_models.TORRENTS)
-    @TORRENTS_NS.marshal_list_with(resp_models.TORRENT)
+    @TORRENTS_NS.marshal_with(resp_models.TORRENT_LIST)
     def get():
         "gets the list of all torrents"
         args = req_models.TORRENTS.parse_args()
-        torrents = Torrent.query.order_by(Torrent.updated.desc())
+        query = Torrent.query
+        if args["status"] and args["status"] == "active":
+            query = query.filter(Torrent.status != Status.COMPLETED)
+        elif args["status"] and args["status"] == "history":
+            query = query.filter(Torrent.status == Status.COMPLETED)
+        elif args["status"]:
+            return abort(400, "please provide a valid status")
+        query = query.order_by(Torrent.updated.desc())
         if args["page"] and args["per_page"]:
-            page = torrents.paginate(**args, error_out=False)
-            return page.items
-        return torrents.all()
+            page = query.paginate(args["page"], args["per_page"], False)
+            results = page.items
+        else:
+            results = query.all()
+        return {"torrents": results, "total": query.count()}
 
 
 @TORRENTS_NS.route("/<int:torrent_id>")

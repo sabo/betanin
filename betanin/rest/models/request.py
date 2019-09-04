@@ -43,6 +43,12 @@ TORRENTS.add_argument(
     location="args",
     help="`the number of results per page (when paginating)`",
 )
+TORRENTS.add_argument(
+    "status",
+    type=str,
+    location="args",
+    help="`status of torrent (eg. 'active' or 'history')`",
+)
 
 
 # for sending stdin to a process
