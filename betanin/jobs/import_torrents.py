@@ -56,13 +56,14 @@ def _read_and_send_pty_out(proc, torrent):
 
 def _import_torrent(torrent):
     proc = PtyProcessUnicode.spawn(
-        [
-            "beet",
-            "import",
-            "--copy",
-            "--noresume",
-            _calculate_import_path(torrent),
-        ]
+        ["/home/senan/dev/repos/betanin/_do_mock_beets"]
+        # [
+        #     "beet",
+        #     "import",
+        #     "--copy",
+        #     "--noresume",
+        #     _calculate_import_path(torrent),
+        # ]
     )
     PROCESSES[torrent.id] = proc
     _read_and_send_pty_out(proc, torrent)

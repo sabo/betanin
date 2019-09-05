@@ -18,7 +18,7 @@
       .navbar-end
         router-link.navbar-item(:to='{ name: "active" }')
           | Activity
-          span#activity-count(v-show='getActivityCount > 0') {{ getActivityCount }}
+          span#activity-count(v-show='getCountActive > 0') {{ getCountActive }}
         router-link.navbar-item(:to='{ name: "complete" }') History
         router-link.navbar-item(:to='{ name: "settings" }') Settings
         a.navbar-item(@click='logout')
@@ -37,7 +37,7 @@ export default {
       show: false
     }
   },
-  computed: mapGetters('torrents', ['getActivityCount']),
+  computed: mapGetters('status', ['getCountActive']),
   methods: {
     toggleShow() {
       this.show = !this.show

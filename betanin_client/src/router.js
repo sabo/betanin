@@ -7,11 +7,11 @@ import Betanin from '@/views/Betanin.vue'
 import Login from '@/views/Login.vue'
 
 // components
-import ConfigEditor from '@/components/settings/ConfigEditor.vue'
-import ModalConsole from '@/components/console/ModalConsole.vue'
-import NotificationEditor from '@/components/settings/NotificationEditor.vue'
+import ConfigEditor from '@/components/ConfigEditor.vue'
+import ModalConsole from '@/components/ModalConsole.vue'
+import NotificationEditor from '@/components/NotificationEditor.vue'
 import Settings from '@/components/Settings.vue'
-import TorrentClients from '@/components/settings/TorrentClients.vue'
+import TorrentClients from '@/components/TorrentClients.vue'
 import TorrentsActive from '@/components/TorrentsActive.vue'
 import TorrentsComplete from '@/components/TorrentsComplete.vue'
 

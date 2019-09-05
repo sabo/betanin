@@ -9,10 +9,12 @@
       header.modal-card-head
         p.modal-card-title {{ torrent.name }}
       #console
-        base-console.modal-card-body(
-          :torrentID='torrentID'
-          :isLive='isLive'
-        )
+        pre(v-chat-scroll)
+          p(
+            v-for='line in getByID[torrentID]'
+            :key='line.index'
+            v-html='colorLine(line.data)'
+          )
         #live-box(v-show='isLive')
           span#fade &#x25A0
           span#text live
@@ -34,27 +36,21 @@
 </template>
 
 <script>
-// imports
-import BaseConsole from '@/components/console/BaseConsole.vue'
+import Convert from 'ansi-to-html'
 import backend from '@/backend'
-import store from '@/store/main'
-// export
+const converter = new Convert()
 export default {
   data () {
     return {
       stdin: ''
     }
   },
-  components: {
-    BaseConsole
-  },
   computed: {
     torrentID () {
       return this.$route.params.torrentID
     },
     torrent () {
-      const torrents = store.getters['torrents/getByID']
-      return torrents[this.torrentID] || {}
+      return { status: 'PROCESSING' }
     },
     isLive () {
       const { status } = this.torrent
@@ -62,14 +58,17 @@ export default {
     }
   },
   methods: {
-    close () {
+    colorLine(line) {
+      return converter.toHtml(line)
+    },
+    close() {
       // not using .go(-1) here just in case there is no history
       const routeParts = this.$route.path.split('/')
       const routeNoConsoleParts = routeParts.slice(0, routeParts.length - 2)
       const routeNew = routeNoConsoleParts.join('/')
       this.$router.push(routeNew)
     },
-    sendStdin (event) {
+    sendStdin(event) {
       backend.secureAxios.post(
         `torrents/${this.torrentID}/console/stdin`, {
           text: this.stdin
@@ -88,6 +87,18 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+  pre {
+    background-color: #404040;
+    padding: 0.75rem;
+    height: 50vh;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  p {
+    font-size: 11px;
+    color: white;
+  }
   .modal-card-title {
     font-size: 1rem;
   }

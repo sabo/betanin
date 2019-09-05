@@ -7,7 +7,7 @@
     #connection
       p(v-show='!getConnected') disconnected
     #status
-      p <b>{{ getHistoryCount }}</b> imports, {{ getActivityCount }} active
+      p <b>{{ getCountComplete }}</b> imports, {{ getCountActive }} active
 </template>
 
 <script>
@@ -16,12 +16,12 @@ import store from '@/store/main'
 import { mapGetters } from 'vuex'
 // export
 export default {
-  computed: mapGetters({
-    getConnected: 'status/getConnected',
-    getSystemInfo: 'status/getSystemInfo',
-    getActivityCount: 'torrents/getActivityCount',
-    getHistoryCount: 'torrents/getHistoryCount'
-  }),
+  computed: mapGetters('status', [
+    'getConnected',
+    'getSystemInfo',
+    'getCountActive',
+    'getCountComplete'
+  ]),
   mounted() {
     store.dispatch('status/doFetchSystemInfo')
   }

@@ -57,7 +57,7 @@
 
 <script>
 // imports
-import NotificationService from '@/components/settings/NotificationService.vue'
+import NotificationService from '@/components/NotificationService.vue'
 import { ValidationObserver } from 'vee-validate'
 import { genNotiStringsComputed } from '@/utilities'
 import { mapActions, mapGetters } from 'vuex'

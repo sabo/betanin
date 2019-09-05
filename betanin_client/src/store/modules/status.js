@@ -8,12 +8,16 @@ import {
 
 const state = {
   connected: false,
-  systemInfo: {}
+  systemInfo: {},
+  countActive: 0,
+  countComplete: 0
 }
 
 const getters = {
   getConnected: state => state.connected,
-  getSystemInfo: state => state.systemInfo
+  getSystemInfo: state => state.systemInfo,
+  getCountActive: state => state.countActive,
+  getCountComplete: state => state.countComplete
 }
 
 const actions = {

@@ -47,12 +47,8 @@ import backend from '@/backend'
 
 // help
 const statusMap = {
-  /* eslint-disable no-multi-spaces, key-spacing, standard/object-curly-even-spacing */
-  ENQUEUED: {
-    text: 'enqueued',
-    icon: 'clock-outline',
-    colour: 'hsl(36, 99%, 65%)'
-  }, // orange
+  // prettier-ignore
+  ENQUEUED: { text: 'enqueued', icon: 'clock-outline', colour: 'hsl(36, 99%, 65%)' }, // orange
   PROCESSING: {
     text: 'processing',
     icon: 'clock-fast',
