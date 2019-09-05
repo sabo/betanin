@@ -16,11 +16,11 @@
         span
     .navbar-menu(:class="{ 'is-active': show }")
       .navbar-end
-        router-link.navbar-item(to='/torrents/active')
+        router-link.navbar-item(:to='{ name: "active" }')
           | Activity
           span#activity-count(v-show='getActivityCount > 0') {{ getActivityCount }}
-        router-link.navbar-item(to='/torrents/complete') History
-        router-link.navbar-item(to='/settings') Settings
+        router-link.navbar-item(:to='{ name: "complete" }') History
+        router-link.navbar-item(:to='{ name: "settings" }') Settings
         a.navbar-item(@click='logout')
           span Logout&nbsp;
           b-icon(size='is-small' icon='logout-variant')
@@ -32,64 +32,60 @@ import { mapGetters } from 'vuex'
 import auth from '@/authentication'
 // export
 export default {
-  data () {
+  data() {
     return {
       show: false
     }
   },
-  computed: {
-    ...mapGetters('torrents', [
-      'getActivityCount'
-    ])
-  },
+  computed: mapGetters('torrents', ['getActivityCount']),
   methods: {
-    toggleShow () {
+    toggleShow() {
       this.show = !this.show
     },
-    getLogoPath () {
+    getLogoPath() {
       return process.env.NODE_ENV === 'production'
         ? require('../assets/logo.png')
         : require('../assets/logo_dev.png')
     },
-    logout () {
+    logout() {
       auth.logout()
     }
   }
 }
 </script>
 
-<style lang='scss' scoped>
-  #logo {
-     margin-right: 2.5rem;
+<style lang="scss" scoped>
+#logo {
+  margin-right: 2.5rem;
+}
+.is-active {
+  font-weight: 600;
+}
+#brand-link {
+  background-color: unset;
+  padding: 0;
+}
+.navbar-burger {
+  background-color: #f9f9f9;
+}
+#activity-count {
+  $count-size: 16px;
+  display: inline-block;
+  background-color: black;
+  opacity: 0.6;
+  color: white;
+  font-size: 13px;
+  line-height: $count-size;
+  width: $count-size;
+  height: $count-size;
+  border-radius: $count-size;
+  text-align: center;
+  z-index: 10;
+  margin-left: 5px;
+  @media only screen and (min-width: 1087px) {
+    position: absolute;
+    top: 8px;
+    right: -1px;
   }
-  .is-active {
-    font-weight: 600;
-  }
-  #brand-link {
-    background-color: unset;
-    padding: 0;
-  }
-  .navbar-burger {
-    background-color: #f9f9f9;
-  }
-  #activity-count {
-    $count-size: 16px;
-    display: inline-block;
-    background-color: black;
-    opacity: 0.6;
-    color: white;
-    font-size: 13px;
-    line-height: $count-size;
-    width: $count-size;
-    height: $count-size;
-    border-radius: $count-size;
-    text-align: center;
-    z-index: 10;
-    margin-left: 5px;
-    @media only screen and (min-width: 1087px) {
-      position: absolute;
-      top: 8px;
-      right: -1px;
-    }
-  }
+}
 </style>

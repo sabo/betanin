@@ -20,13 +20,13 @@
     router-view
 </template>
 
-<style lang='scss' scoped>
-  /deep/ {
-    .tab-item {
-      margin-top: 2rem;
-    }
-    .tab-content {
-      padding: 0 !important;
-    }
+<style lang="scss" scoped>
+/deep/ {
+  .tab-item {
+    margin-top: 2rem;
   }
+  .tab-content {
+    padding: 0 !important;
+  }
+}
 </style>

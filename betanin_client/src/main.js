@@ -14,26 +14,19 @@ import './filters'
 // buefy
 import Buefy from 'buefy'
 import '@mdi/font/css/materialdesignicons.css'
-Vue.use(
-  Buefy,
-  {
-    defaultIconPack: 'mdi',
-    defaultContainerElement: 'app'
-  }
-)
+Vue.use(Buefy, {
+  defaultIconPack: 'mdi',
+  defaultContainerElement: 'app'
+})
 
 // socketio
 import VueSocketio from 'vue-socket.io-extended'
 import IO from 'socket.io-client'
-Vue.use(
-  VueSocketio,
-  IO(SOCKET_URL),
-  {
-    store,
-    actionPrefix: 'doSocket__',
-    mutationPrefix: 'SOCKET__'
-  }
-)
+Vue.use(VueSocketio, IO(SOCKET_URL), {
+  store,
+  actionPrefix: 'doSocket__',
+  mutationPrefix: 'SOCKET__'
+})
 
 // vee
 import VeeValidate, { Validator } from 'vee-validate'

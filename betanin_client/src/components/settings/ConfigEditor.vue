@@ -31,7 +31,7 @@ import backend from '@/backend'
 const endpointPath = '/beets/config'
 // export
 export default {
-  data () {
+  data() {
     return {
       text: '',
       readAt: '',
@@ -39,11 +39,10 @@ export default {
     }
   },
   methods: {
-    setConfig () {
-      backend.secureAxios.put(endpointPath,
-        { config: this.text })
+    setConfig() {
+      backend.secureAxios.put(endpointPath, { config: this.text })
     },
-    async getConfig () {
+    async getConfig() {
       this.isLoading = true
       try {
         const response = await backend.secureAxios.get(endpointPath)
@@ -58,11 +57,11 @@ reason: '${error.response.data.message}'`
       this.isLoading = false
     }
   },
-  mounted () {
+  mounted() {
     this.getConfig()
   },
   computed: {
-    wasError () {
+    wasError() {
       return this.readAt === null
     }
   }
@@ -70,22 +69,22 @@ reason: '${error.response.data.message}'`
 </script>
 
 <style scoped>
-  #buttons {
-    margin-top: 0.75rem;
-  }
-  textarea {
-    border-radius: 4px !important;
-    -webkit-border-radius: 4px !important;
-    -moz-border-radius: 4px !important;
-    border-radius: 5px !important;
-    height: 100vh !important;
-    font-family: monospace;
-    background-color: #303030;
-    color: #eee;
-  }
-  textarea:focus {
-    border-color: unset;
-    -webkit-box-shadow: unset;
-    box-shadow: unset;
-  }
+#buttons {
+  margin-top: 0.75rem;
+}
+textarea {
+  border-radius: 4px !important;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+  border-radius: 5px !important;
+  height: 100vh !important;
+  font-family: monospace;
+  background-color: #303030;
+  color: #eee;
+}
+textarea:focus {
+  border-color: unset;
+  -webkit-box-shadow: unset;
+  box-shadow: unset;
+}
 </style>

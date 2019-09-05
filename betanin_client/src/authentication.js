@@ -3,7 +3,7 @@ import authUtils from '@/authentication_utilities'
 import router from '@/router'
 
 export default {
-  async login (username, password) {
+  async login(username, password) {
     try {
       const response = await backend.insecureAxios.post(
         'authentication/login',
@@ -19,7 +19,7 @@ export default {
       }
     }
   },
-  logout (redirect) {
+  logout(redirect) {
     authUtils.clearToken()
     router.replace({
       name: 'login',

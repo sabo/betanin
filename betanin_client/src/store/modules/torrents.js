@@ -13,29 +13,24 @@ const state = {
 
 const getters = {
   getActivity: state =>
-    state.torrents.filter(item =>
-      item.status !== 'COMPLETED'),
+    state.torrents.filter(item => item.status !== 'COMPLETED'),
   getHistory: state =>
-    state.torrents.filter(item =>
-      item.status === 'COMPLETED'),
-  getActivityCount: (state, getters) =>
-    getters.getActivity.length,
-  getHistoryCount: (state, getters) =>
-    getters.getHistory.length,
-  getByID: state =>
-    keyBy(state.torrents, 'id')
+    state.torrents.filter(item => item.status === 'COMPLETED'),
+  getActivityCount: (state, getters) => getters.getActivity.length,
+  getHistoryCount: (state, getters) => getters.getHistory.length,
+  getByID: state => keyBy(state.torrents, 'id')
 }
 
 const actions = {
-  async doFetchAll ({ commit }) {
+  async doFetchAll({ commit }) {
     const result = await backend.secureAxios.get('torrents/')
     commit(TORRENTS_ALL_CREATE, result.data)
   },
-  doDeleteOne ({ commit }, torrentID) {
+  doDeleteOne({ commit }, torrentID) {
     backend.secureAxios.delete(`torrents/${torrentID}`)
     commit(TORRENTS_ONE_DELETE, torrentID)
   },
-  doRetryOne (context, torrentID) {
+  doRetryOne(context, torrentID) {
     backend.secureAxios.put(`torrents/${torrentID}`)
   },
   doSocket__newTorrent: ({ commit }, torrent) => {
@@ -44,22 +39,21 @@ const actions = {
 }
 
 const mutations = {
-  [TORRENTS_ALL_CREATE] (state, torrents) {
+  [TORRENTS_ALL_CREATE](state, torrents) {
     Vue.set(state, 'torrents', torrents)
   },
-  [TORRENTS_ONE_UPDATE] (state, torrent) {
-    const i = state.torrents.findIndex(item =>
-      item.id === torrent.id)
+  [TORRENTS_ONE_UPDATE](state, torrent) {
+    const i = state.torrents.findIndex(item => item.id === torrent.id)
     if (i > -1) {
       Vue.set(state.torrents, i, torrent)
       return
     }
     state.torrents.unshift(torrent)
   },
-  [TORRENTS_ONE_DELETE] (state, torrentID) {
+  [TORRENTS_ONE_DELETE](state, torrentID) {
     state.torrents.splice(
-      state.torrents.findIndex(torrent =>
-        torrent.id === torrentID), 1
+      state.torrents.findIndex(torrent => torrent.id === torrentID),
+      1
     )
   }
 }

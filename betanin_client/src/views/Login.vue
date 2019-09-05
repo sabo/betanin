@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
   .container
     .card
       img#logo(
@@ -40,7 +40,7 @@
 <script>
 import auth from '@/authentication'
 export default {
-  data () {
+  data() {
     return {
       username: '',
       password: '',
@@ -48,7 +48,7 @@ export default {
     }
   },
   methods: {
-    async login () {
+    async login() {
       const isValid = await this.$validator.validateAll()
       if (!isValid) {
         return
@@ -59,35 +59,35 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
-  .container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+<style lang="scss" scoped>
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.error {
+  color: red;
+}
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  max-width: 560px;
+  #form {
+    width: 100%;
   }
-  .error {
-    color: red;
+  #logo {
+    width: 45%;
   }
-  .card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 1rem;
-    max-width: 560px;
-    #form {
-      width: 100%;
-    }
-    #logo {
-      width: 45%;
-    }
-    > * {
-      margin: 1.5rem 0;
-    }
+  > * {
+    margin: 1.5rem 0;
   }
-  #error-text {
-    color: #696969;
-    margin-top: 18px;
-  }
+}
+#error-text {
+  color: #696969;
+  margin-top: 18px;
+}
 </style>

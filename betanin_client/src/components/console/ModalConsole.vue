@@ -3,7 +3,7 @@
     :width='640'
     scroll='keep'
     :active='$route.meta.modalIsOpen'
-    :onCancel='openModalClose'
+    :onCancel='close'
   )
     .modal-card
       header.modal-card-head
@@ -62,12 +62,12 @@ export default {
     }
   },
   methods: {
-    openModalClose () {
+    close () {
       // not using .go(-1) here just in case there is no history
-      this.$router.push({
-        name: 'torrents',
-        params: { listType: this.$route.params.listType }
-      })
+      const routeParts = this.$route.path.split('/')
+      const routeNoConsoleParts = routeParts.slice(0, routeParts.length - 2)
+      const routeNew = routeNoConsoleParts.join('/')
+      this.$router.push(routeNew)
     },
     sendStdin (event) {
       backend.secureAxios.post(

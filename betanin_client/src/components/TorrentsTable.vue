@@ -21,7 +21,7 @@
             |  {{ statusStyle(props.row.status).text }}
           router-link.status-group.link(
             v-show='props.row.has_lines'
-            :to=`{ name: 'modal console', params: { torrentID: props.row.id } }`
+            :to='consoleRoute(props.row.id)'
           )
             b-icon(icon='console' size='is-small')
             |  view
@@ -68,28 +68,29 @@ const statusMap = {
 }
 // export
 export default {
-  props: [
-    'type'
-  ],
+  props: ['type'],
   methods: {
-    retryTorrent (torrentID) {
-      if (confirm('do you want to retry this?')) {
-        store.dispatch('torrents/doRetryOne', torrentID)
-        this.$router.push({
-          name: 'modal console',
-          params: { torrentID }
-        })
+    consoleRoute(torrentID) {
+      return {
+        name: `${this.type}/console`,
+        params: { torrentID }
       }
     },
-    deleteTorrent (torrentID) {
+    retryTorrent(torrentID) {
+      if (confirm('do you want to retry this?')) {
+        store.dispatch('torrents/doRetryOne', torrentID)
+        this.$router.push(this.consoleRoute(torrentID))
+      }
+    },
+    deleteTorrent(torrentID) {
       if (confirm('do you want to remove this from betanin?')) {
         store.dispatch('torrents/doDeleteOne', torrentID)
       }
     },
-    statusStyle (status) {
+    statusStyle(status) {
       return statusMap[status]
     },
-    async getTorrents () {
+    async getTorrents() {
       this.loading = true
       try {
         const response = await backend.secureAxios.get('torrents/', {
@@ -109,12 +110,12 @@ export default {
         throw e
       }
     },
-    changePage (page) {
+    changePage(page) {
       this.page = page
       this.getTorrents()
     }
   },
-  data () {
+  data() {
     return {
       page: 1,
       perPage: 20,
@@ -124,7 +125,7 @@ export default {
       loading: false
     }
   },
-  mounted () {
+  mounted() {
     this.getTorrents()
   }
 }

@@ -39,17 +39,17 @@
 <script>
 import backend from '@/backend'
 export default {
-  data () {
+  data() {
     return {
       apiKey: 'loading...'
     }
   },
   computed: {
-    origin () {
+    origin() {
       return window.location.origin
     }
   },
-  async mounted () {
+  async mounted() {
     const response = await backend.secureAxios.get('clients/api_key')
     this.apiKey = response.data.api_key
   }
@@ -57,8 +57,8 @@ export default {
 </script>
 
 <style>
-  .example-heading {
-    margin-bottom: 0.45rem !important;
-    color: #888 !important;
-  }
+.example-heading {
+  margin-bottom: 0.45rem !important;
+  color: #888 !important;
+}
 </style>

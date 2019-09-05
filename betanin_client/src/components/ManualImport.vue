@@ -22,14 +22,14 @@ import debounce from 'lodash.debounce'
 import backend from '@/backend'
 // export
 export default {
-  data () {
+  data() {
     return {
       results: [],
       selection: ''
     }
   },
   methods: {
-    async doImport () {
+    async doImport() {
       const fetchUrl = `torrents`
       const formData = new FormData()
       formData.append('both', this.selection)
@@ -44,14 +44,14 @@ export default {
         this.selection = ''
       }
     },
-    manualFind: debounce(async function async (dir) {
+    manualFind: debounce(async function async(dir) {
       if (!dir.length) {
         this.results = []
         return
       }
-      const results = await backend.secureAxios.get(
-        `/meta/sub_dirs`, { params: { dir } }
-      )
+      const results = await backend.secureAxios.get(`/meta/sub_dirs`, {
+        params: { dir }
+      })
       this.results = []
       for (let item of results.data) {
         this.results.push(item.path)
@@ -61,13 +61,13 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
-  #search {
-    #import-button {
-      margin: 0 0.5rem;
-    }
-    #import-label {
-      margin-bottom: 8px;
-    }
+<style lang="scss" scoped>
+#search {
+  #import-button {
+    margin: 0 0.5rem;
   }
+  #import-label {
+    margin-bottom: 8px;
+  }
+}
 </style>

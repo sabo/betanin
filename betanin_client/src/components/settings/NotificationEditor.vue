@@ -68,7 +68,7 @@ export default {
     NotificationService,
     ValidationObserver
   },
-  mounted () {
+  mounted() {
     store.dispatch('notifications/doFetchPossible')
     store.dispatch('notifications/doFetchServices')
     store.dispatch('notifications/doFetchStrings')
@@ -88,17 +88,16 @@ export default {
       'doPostService',
       'doPutServices'
     ]),
-    async saveServices () {
+    async saveServices() {
       const services = this.$refs.services || []
-      const promises = services.map(service =>
-        service.$validator.validateAll())
+      const promises = services.map(service => service.$validator.validateAll())
       const results = await Promise.all(promises)
       if (results.every(v => v)) {
         this.doPutServices()
       }
     }
   },
-  data () {
+  data() {
     return {
       newServiceType: 'Kodi/XBMC'
     }
@@ -106,44 +105,45 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
-  hr {
-    margin-top: 5rem;
-  }
-  .controls {
-    margin-top: 24px;
-  }
-  #strings-save-button {
-    margin-top: 24px;
-  }
-  #strings-editor {
-    width: 100%;
-    display: flex;
-    align-items: stretch;
-    #variables-help {
-      margin-left: 2rem;
-      @media only screen and (max-width: 768px) {
-        display: none;
-      }
-    }
-    > * {
-      flex: 1 100%;
+<style lang="scss" scoped>
+hr {
+  margin-top: 5rem;
+}
+.controls {
+  margin-top: 24px;
+}
+#strings-save-button {
+  margin-top: 24px;
+}
+#strings-editor {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  #variables-help {
+    margin-left: 2rem;
+    @media only screen and (max-width: 768px) {
+      display: none;
     }
   }
-  #service-controls {
-    display: flex;
-    justify-content: flex-end;
-    #service-type-selector {
-      margin-right: 1rem;
-    }
+  > * {
+    flex: 1 100%;
   }
-  #strings-inputs /deep/ {
-    textarea, input {
-      padding: 5px;
-    }
-    textarea {
-      min-height: calc(36px * 2);
-      max-height: unset;
-    }
+}
+#service-controls {
+  display: flex;
+  justify-content: flex-end;
+  #service-type-selector {
+    margin-right: 1rem;
   }
+}
+#strings-inputs /deep/ {
+  textarea,
+  input {
+    padding: 5px;
+  }
+  textarea {
+    min-height: calc(36px * 2);
+    max-height: unset;
+  }
+}
 </style>

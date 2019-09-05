@@ -1,16 +1,16 @@
 // this module only exists to fix a circular import
 
 export default {
-  clearToken () {
+  clearToken() {
     delete localStorage.token
   },
-  setToken (token) {
+  setToken(token) {
     localStorage.token = token
   },
-  getToken () {
+  getToken() {
     return localStorage.token
   },
-  isLoggedIn () {
+  isLoggedIn() {
     return localStorage.token !== undefined
   }
 }

@@ -53,20 +53,15 @@ import store from '@/store/main'
 import { genNotiServiceComputed } from '@/utilities'
 // export
 export default {
-  props: [
-    'serviceID'
-  ],
-  data () {
+  props: ['serviceID'],
+  data() {
     return {
       deleteIsVisible: false
     }
   },
   computed: {
-    ...mapGetters('notifications', [
-      'getPossibleProtocols',
-      'getPossibleInfo'
-    ]),
-    service () {
+    ...mapGetters('notifications', ['getPossibleProtocols', 'getPossibleInfo']),
+    service() {
       const services = store.getters['notifications/getServiceByID']
       return services[this.serviceID]
     },
@@ -75,38 +70,39 @@ export default {
     notProtocol: genNotiServiceComputed('not_protocol')
   },
   methods: {
-    ...mapMutations('notifications', [
-      NOTI_SERVICE_DELETE
-    ])
+    ...mapMutations('notifications', [NOTI_SERVICE_DELETE])
   }
 }
 </script>
 
-<style lang='scss' scoped>
-  #url {
-    display: flex;
-    align-items: flex-start;
-    > * {
-      margin: 0 5px;
-    }
-    /deep/ #not-protocol-box {
-      width: 500px;
-    }
-    #protocol-helper {
-      font-family: monospace;
-    }
+<style lang="scss" scoped>
+#url {
+  display: flex;
+  align-items: flex-start;
+  > * {
+    margin: 0 5px;
   }
-  #line {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    background-color: #fafafa;
-    border-radius: 5px;
-    padding: 0.5rem;
-    margin: 0.5rem 0;
+  /deep/ #not-protocol-box {
+    width: 500px;
   }
-  #protocol-helper, #info-link, #delete-button, #enabled-switch {
-    height: 36px;
-    line-height: 36px;
+  #protocol-helper {
+    font-family: monospace;
   }
+}
+#line {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-color: #fafafa;
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+#protocol-helper,
+#info-link,
+#delete-button,
+#enabled-switch {
+  height: 36px;
+  line-height: 36px;
+}
 </style>

@@ -1,22 +1,20 @@
 import Vue from 'vue'
 
 const filters = {
-  formatTimestamp (timestamp) {
+  formatTimestamp(timestamp) {
     const datetime = new Date(timestamp)
     return datetime.toLocaleTimeString('en-IE')
   },
-  lower (string) {
+  lower(string) {
     return string.toLowerCase()
   },
-  toYesNo (value) {
-    return value
-      ? 'yes'
-      : 'no'
+  toYesNo(value) {
+    return value ? 'yes' : 'no'
   },
-  round (value) {
+  round(value) {
     return Math.round(value)
   },
-  truncate (text, stop, clamp) {
+  truncate(text, stop, clamp) {
     if (!text) {
       return ''
     }

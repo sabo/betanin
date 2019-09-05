@@ -9,13 +9,11 @@
 
 <script>
 export default {
-  props: [
-    'appearance'
-  ],
+  props: ['appearance'],
   methods: {
-    getStyle (colour) {
+    getStyle(colour) {
       return {
-        'color': this.appearance.colour
+        color: this.appearance.colour
       }
     }
   }

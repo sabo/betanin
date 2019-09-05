@@ -12,10 +12,8 @@ const state = {
 }
 
 const getters = {
-  getConnected: state =>
-    state.connected,
-  getSystemInfo: state =>
-    state.systemInfo
+  getConnected: state => state.connected,
+  getSystemInfo: state => state.systemInfo
 }
 
 const actions = {
@@ -25,19 +23,18 @@ const actions = {
   doSocket__disconnect: ({ commit }) => {
     commit(STATUS_CONNECTED_UPDATE, false)
   },
-  async doFetchSystemInfo ({ commit }) {
-    const result = await backend.secureAxios.get(
-      '/meta/system_info')
+  async doFetchSystemInfo({ commit }) {
+    const result = await backend.secureAxios.get('/meta/system_info')
     const cleanInfo = cleanObject(result.data)
     commit(STATUS_SYSTEM_UPDATE, cleanInfo)
   }
 }
 
 const mutations = {
-  [STATUS_CONNECTED_UPDATE] (state, connected) {
+  [STATUS_CONNECTED_UPDATE](state, connected) {
     Vue.set(state, 'connected', connected)
   },
-  [STATUS_SYSTEM_UPDATE] (state, info) {
+  [STATUS_SYSTEM_UPDATE](state, info) {
     Vue.set(state, 'systemInfo', info)
   }
 }
