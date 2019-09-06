@@ -9,13 +9,13 @@ import {
 
 const state = {
   torrents: [],
-  page: 1,
   perPage: 20,
   total: 0
 }
 
 const getters = {
   getTorrents: state => state.torrents,
+  getPerPage: state => state.perPage,
   getCountActive: state =>
     state.torrents.filter(item => item.status !== 'COMPLETED'),
   getCountComplete: state => state.total,
@@ -23,10 +23,10 @@ const getters = {
 }
 
 const actions = {
-  async doFetchAll({ commit, state }) {
+  async doFetchPage({ commit, state }, page) {
     const result = await backend.secureAxios.get('torrents/', { params: {
-      page: state.pagination.page,
-      per_page: state.pagination.perPage
+      page: page,
+      per_page: state.perPage
     })
     commit(TORRENTS_ALL_CREATE, result.data)
   },
@@ -45,7 +45,7 @@ const actions = {
 const mutations = {
   [TORRENTS_ALL_CREATE](state, data) {
     Vue.set(state, 'torrents', data.torrents)
-    Vue.set(state.pagination, 'total', data.total)
+    Vue.set(state, 'total', data.total)
   },
   [TORRENTS_ONE_UPDATE](state, torrent) {
     const i = state.torrents.findIndex(item => item.id === torrent.id)

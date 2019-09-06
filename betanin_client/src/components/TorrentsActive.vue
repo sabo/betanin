@@ -7,7 +7,7 @@
       paginated
       backend-pagination
       :total="total"
-      :per-page="perPage"
+      :per-page="getPerPage"
       @page-change="changePage"
       detailed
       detail-key='id'
@@ -50,15 +50,20 @@ export default {
   components: {
     ManualImport
   },
+  data () {
+    return {
+      page: 1
+    }
+  },
   computed: mapGetters('torrents', [
-    'getTorrents'
+    'getTorrents',
+    'getPerPage',
+    'getCountComplete',
   ]),
   methods: {
-    consoleRoute(torrentID) {
-      return {
-        name: `active/console`,
-        params: { torrentID }
-      }
+    changePage(page) {
+      this.page = page
+      store.dispatch('torrents/doFetchPage', page)
     },
     retryTorrent (torrentID) {
       if (confirm('do you want to retry this?')) {
