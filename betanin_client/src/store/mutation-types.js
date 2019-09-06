@@ -1,5 +1,10 @@
 // exports must end with _{CREATE,UPDATE,DELETE}
 
+// torrents module
+export const TORRENTS_ONE_UPDATE = 'TORRENTS_ONE_UPDATE'
+export const TORRENTS_ONE_DELETE = 'TORRENTS_ONE_DELETE'
+export const TORRENTS_ALL_CREATE = 'TORRENTS_ALL_CREATE'
+
 // notifications module
 export const NOTI_STRINGS_UPDATE = 'NOTI_STRINGS_UPDATE'
 export const NOTI_STRING_UPDATE = 'NOTI_STRING_UPDATE'

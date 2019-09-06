@@ -3,6 +3,7 @@
 // vue
 import Vue from 'vue'
 Vue.config.productionTip = false
+Vue.config.devtools = true
 
 // betanin
 import App from '@/views/App.vue'

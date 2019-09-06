@@ -10,7 +10,8 @@ const statusMap = {
 export const torrentTable = {
   data() {
     return {
-      openedDetails: []
+      openedDetails: [],
+      loading: false
     }
   },
   methods: {

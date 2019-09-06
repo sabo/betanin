@@ -1,13 +1,17 @@
 <template lang="pug">
   div
-    manual-import
-    br
+    slot
     b-table#torrents(
-      :data='torrents'
-      :opened-detailed='openedDetails'
+      :data="torrents"
+      :loading="loading"
+      paginated
+      backend-pagination
+      :total="total"
+      :per-page="perPage"
+      @page-change="changePage"
       detailed
       detail-key='id'
-      :loading="loading"
+      :opened-detailed='openedDetails'
     )
       template(slot-scope='props')
         b-table-column(label='name') {{ props.row.name }}
@@ -21,6 +25,12 @@
           )
             b-icon(icon='console' size='is-small')
             |  view
+          span.status-group(v-show='["FAILED", "COMPLETED"].includes(props.row.status)')
+            span.link(title='remove torrent' @click='deleteTorrent(props.row.id)')
+              b-icon.link(icon='close' size='is-small')
+            | &nbsp;
+            span.link(title='retry import' @click='retryTorrent(props.row.id)')
+              b-icon.link(title='retry import' icon='loop' size='is-small')
       template(slot-scope='props' slot='detail')
         #row-status
           p <strong>id</strong> {{ props.row.id }}
@@ -33,36 +43,36 @@
 <script>
 import ManualImport from '@/components/ManualImport.vue'
 import { torrentTable } from '@/mixins'
-import backend from '@/backend'
+import { mapGetters } from 'vuex'
+import store from '@/store/main'
 export default {
   mixins: [torrentTable],
   components: {
     ManualImport
   },
-  data() {
-    return {
-      torrents: [],
-      loading: false
-    }
-  },
+  computed: mapGetters('torrents', [
+    'getTorrents'
+  ]),
   methods: {
     consoleRoute(torrentID) {
       return {
         name: `active/console`,
         params: { torrentID }
       }
+    },
+    retryTorrent (torrentID) {
+      if (confirm('do you want to retry this?')) {
+        store.dispatch('torrents/doRetryOne', torrentID)
+        this.$router.push({
+          name: 'modal console', params: { torrentID }
+        })
+      }
+    },
+    deleteTorrent (torrentID) {
+      if (confirm('do you want to remove this from betanin?')) {
+        store.dispatch('torrents/doDeleteOne', torrentID)
+      }
     }
-  },
-  async mounted() {
-    this.loading = true
-    const response = await backend.secureAxios.get('torrents/', {
-      params: { status: 'active' }
-    })
-    this.loading = false
-    if (!response.data.torrents) {
-      return
-    }
-    this.torrents = response.data.torrents
   }
 }
 </script>
