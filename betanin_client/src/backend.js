@@ -16,7 +16,7 @@ const insecureAxios = axios.create(baseAxios)
 const secureAxios = axios.create(baseAxios)
 secureAxios.interceptors.request.use(
   config => {
-    config.headers['Authorization'] = `Bearer ${authUtils.getToken()}`
+    config.headers.Authorization = `Bearer ${authUtils.getToken()}`
     return config
   },
   undefined

@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     async doImport () {
-      const fetchUrl = `torrents`
+      const fetchUrl = 'torrents'
       const formData = new FormData()
       formData.append('both', this.selection)
       try {
@@ -50,10 +50,10 @@ export default {
         return
       }
       const results = await backend.secureAxios.get(
-        `/meta/sub_dirs`, { params: { dir } }
+        '/meta/sub_dirs', { params: { dir } }
       )
       this.results = []
-      for (let item of results.data) {
+      for (const item of results.data) {
         this.results.push(item.path)
       }
     }, 200)

@@ -48,7 +48,7 @@ const actions = {
   // one service
   async doPostService ({ commit }, serviceName) {
     const result = await backend.secureAxios.post(
-      `/notifications/services`,
+      '/notifications/services',
       { type: serviceName }
     )
     commit(NOTI_SERVICE_CREATE, result.data)
@@ -56,14 +56,14 @@ const actions = {
   // all services
   async doPutServices ({ commit, getters }) {
     await backend.secureAxios.put(
-      `/notifications/services`,
+      '/notifications/services',
       { services: getters.getServices }
     )
     await commit(NOTI_SERVICE_TESTING_UPDATE, true)
     let testResult
     try {
       const testResponse = await backend.secureAxios.get(
-        `/notifications/test_services`,
+        '/notifications/test_services',
         getters.getServices
       )
       testResult = testResponse.data.result

@@ -52,8 +52,9 @@ sudo systemctl start docker
 sudo docker \
     run -it --rm \
     -v "$PWD/betanin_client:/betanin" \
+    -v "betanin_node_modules:/betanin/node_modules" \
     -w '/betanin' \
-    node \
+    'node:14.3.0' \
     sh -c "npm install && npm run-script build"
 
 # run setuptools and upload. we're passing the bumped version
