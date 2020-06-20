@@ -2,6 +2,13 @@
 
 [[ "$UID" -eq 0 ]] && exec betanin
 
-adduser -D -h ~root -u $UID -g $GID betanin
+if [[ "$UID" -ne "$GID" ]]
+then
+	addgroup -g $GID betanin
+	adduser -D -h ~root -u $UID -G betanin betanin
+else
+	adduser -D -h ~root -u $UID betanin
+fi
+
 chown -R betanin:betanin ~root
 exec sudo -u betanin -g betanin betanin
