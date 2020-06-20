@@ -11,11 +11,9 @@ RUN \
         https://github.com/caronc/apprise/archive/master.zip \
         -r /requirements-docker.txt && \
     apk del build-base
-VOLUME [ \
-    "/root/.local/share/betanin/" \
-    "/root/.config/betanin/" \
-    "/root/.config/beets/" \
-]
+VOLUME "/root/.local/share/betanin/"
+VOLUME "/root/.config/betanin/" 
+VOLUME "/root/.config/beets/" 
 ENV \
     PYTHONUNBUFFERED=1 \
     PYTHONWARNINGS="ignore:Unverified HTTPS request" \
